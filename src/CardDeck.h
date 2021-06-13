@@ -1,6 +1,8 @@
+#pragma once
 #include <iostream>
 #include <string>
 #include <list>
+#include <random>
 
 #include "Card.h"
 
@@ -16,7 +18,7 @@ class CardDeck
 	string getValueText(int);
 	void initCards();
 	void printCards();
-	void test();
+	Card drawCard();
 };
 
 string CardDeck::getSuitText(int id)
@@ -113,7 +115,28 @@ void CardDeck::printCards()
 	}
 }
 
-void CardDeck::test()
+Card CardDeck::drawCard()
 {
-	cout<<"test"<<endl;
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<int> rand(0, cards.size());
+	
+	list<Card>::iterator iter;
+	int i = 0, index;
+	Card selectedCard(" ", " ");
+	
+	index = rand(gen); 
+	
+	for(iter = cards.begin(); iter != cards.end(); iter++)
+	{
+		if(i == index)
+		{
+			selectedCard = *iter;
+			cards.erase(iter);
+			break;
+		}
+		i++;
+	}
+	
+	return selectedCard;
 }
