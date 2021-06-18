@@ -94,13 +94,14 @@ string CardDeck::getValueText(int id)
 
 void CardDeck::initCards()
 {
-	Card card(" ", " ");
+	Card card(" ", " ", 0);
 	for(int i = 0; i < 4; i++)
 	{
 		for(int j = 0; j < 13; j++)
 		{
 			card.setSuit(getSuitText(i));
 			card.setValue(getValueText(j));
+			card.setPoint(j + 1);
 			cards.push_back(card);
 		}
 	}
@@ -123,7 +124,7 @@ Card CardDeck::drawCard()
 	
 	list<Card>::iterator iter;
 	int i = 0, index;
-	Card selectedCard(" ", " ");
+	Card selectedCard(" ", " ", 0);
 	
 	index = rand(gen); 
 	

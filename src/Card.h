@@ -9,18 +9,20 @@ class Card
 	private:
 	string suit;
 	string value;
-	
+	int point;
 	public:
-	Card(string, string);
+	Card(string, string, int);
 	string getSuit();
 	void setSuit(string);
 	string getValue();
 	void setValue(string);
+	int getPoint();
+	void setPoint(int);
 	void toString();
 	
 };
 
-Card::Card(string suit, string value) : suit(suit), value(value) { }
+Card::Card(string suit, string value, int point) : suit(suit), value(value), point(point) { }
 
 string Card::getSuit()
 {
@@ -40,6 +42,16 @@ string Card::getValue()
 void Card::setValue(string value)
 {
 	this->value = value;
+}
+
+int Card::getPoint()
+{
+	return point < 11 ? point : 10;
+}
+
+void Card::setPoint(int point)
+{
+	this->point = point;
 }
 
 void Card::toString()

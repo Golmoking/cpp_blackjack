@@ -16,12 +16,14 @@ void Player::showCards()
 	list<Card> cds = getCards();
 	list<Card>::iterator iter;
 	
-	cout << "현재 보유한 카드 : "; 
+	cout << "Your Cards : "; 
 	
 	for(iter = cds.begin(); iter != cds.end(); iter++)
 	{
 		iter->toString();
 		cout << " ";
 	}
-	cout << endl;
+	
+	cout << endl << "Current Score : ";
+	cout << getPointSum() << endl;
 }
