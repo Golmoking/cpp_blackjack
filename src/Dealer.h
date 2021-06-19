@@ -12,7 +12,10 @@ class Dealer : public Gamer
 	
 };
 
-Dealer::Dealer() : Gamer() { }
+Dealer::Dealer() : Gamer() 
+{
+	setName("Dealer");
+}
 
 void Dealer::showCards()
 {

@@ -9,7 +9,10 @@ class Player : public Gamer
 	void showCards() override;
 };
 
-Player::Player() : Gamer() { }
+Player::Player() : Gamer() 
+{
+	setName("Player");
+}
 
 void Player::showCards()
 {

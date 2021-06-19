@@ -1,9 +1,11 @@
 #pragma once
-#include<iostream>
+#include <iostream>
+#include <stdlib.h>
 
 #include "CardDeck.h"
 #include "Player.h"
 #include "Dealer.h"
+#include "Rule.h"
 
 using namespace std;
 
@@ -13,16 +15,66 @@ class Game
 	CardDeck carddeck;
 	Player player;
 	Dealer dealer;
+	Rule rule;
 	public:
 	void Play();
+	void MenuPhase();
+	void SettingPhase();
 	void StartPhase();
 	void PlayingPhase();
 };
 
 void Game::Play()
 {
-	StartPhase();
-	PlayingPhase();
+	MenuPhase();
+	//StartPhase();
+	//PlayingPhase();
+}
+
+void Game::MenuPhase()
+{
+	int n;
+	
+	cout << "┌───────────────────┐" << endl;
+	cout << "│                   │" << endl;
+	cout << "│     B L A C K     │" << endl;
+	cout << "│      J A C K      │" << endl;
+	cout << "│                   │" << endl;
+	cout << "└───────────────────┘" << endl;
+	
+	cout << "   1. Start Game" << endl;
+	cout << "   2. Settings" << endl;
+	cout << "   3. Credit" << endl;
+	cout << "   4. Quit Game" << endl;
+	
+	while(1)
+	{
+		cout << "> ";
+		cin >> n;
+		if(0 < n && n <= 4) break;
+		else
+			cout << "Error : Invailed Input" << endl;
+	}
+	
+	switch(n)
+	{
+		case 1:
+			//system("cls");
+			StartPhase();
+			PlayingPhase();
+			break;
+		case 2:
+			//SettingPhase();
+			cout << "Coming Soon..." << endl;
+			break;
+		case 3:
+			//CreditPhase();
+			cout << "Developed by GolmokDaeBBang(@golmoking)" << endl;
+			break;
+		case 4:
+			break;
+	}
+	
 }
 
 void Game::StartPhase()
@@ -41,35 +93,78 @@ void Game::StartPhase()
 void Game::PlayingPhase()
 {
 	int n;
-	while(1)
+	
+	bool isVaildInput, isPlayerStay, isDealerStay, isEndOfGame = false;
+	
+	while(!isEndOfGame)
 	{
+		isVaildInput = false;
 		cout << endl << "===== Player's Turn =====" << endl;
-		cout << "Hit or Stay? (Hit : 1 ,Stay : 0)" << endl << "> ";
-		cin >> n;
+		player.showCards();
+		cout << "Hit or Stay? (Hit : 1 ,Stay : 2, Show Dealer's Card : 3)" << endl;
 		
-		if(n)
+		while(!isVaildInput)
 		{
-			cout << "Hit!" << endl;
-			player.receiveCard(carddeck.drawCard());
-			player.showCards();
+			cout << "> ";
+			cin >> n;
+			
+			switch(n)
+			{
+			case 1:
+				cout << "Hit!" << endl;
+				player.receiveCard(carddeck.drawCard());
+				isPlayerStay = false;
+				isVaildInput = true;
+				break;
+			case 2:
+				cout << "Stay!" << endl;
+				isPlayerStay = true;
+				isVaildInput = true;
+				break;
+			case 3:
+				dealer.showCards();
+				break;
+			default:
+				cout << "Error : Invailed Value" << endl;	
+			}
 		}
-		else
+		
+		if(rule.isBurst(player.getPointSum()))
 		{
-			cout << "Stay!" << endl;
-			player.showCards();
+			cout << "Player's Burst! Dealer's Win!" << endl;
+			isEndOfGame = true;
+			continue;
 		}
 		
 		cout << endl << "===== Dealer's Turn =====" << endl;
+		
 		if(dealer.isDealerCanHit())
 		{
 			cout << "Dealer chose Hit!" << endl;
 			dealer.receiveCard(carddeck.drawCard());
+			isDealerStay = false;
 		}
 		else
 		{
 			cout << "Dealer chose Stay!" << endl;
+			isDealerStay = true;
 		}
 		
+		if(rule.isBurst(dealer.getPointSum()))
+		{
+			cout << "Dealer's Burst! Player's Win!" << endl;
+			isEndOfGame = true;
+			continue;
+		}
 		
+		if(isPlayerStay && isDealerStay)
+		{
+			cout << "End Game" << endl;
+			cout << "Player's Total Point : " << player.getPointSum() << endl;
+			cout << "Dealer's Total Point : " << dealer.getPointSum() << endl;
+			
+			cout << rule.getWinner(player.getPointSum(), dealer.getPointSum()) << " is Winner" << endl;
+			
+		}
 	}
 }
