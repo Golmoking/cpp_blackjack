@@ -27,6 +27,5 @@ void Player::showCards()
 		cout << " ";
 	}
 	
-	cout << endl << "Current Score : ";
-	cout << getPointSum() << endl;
+	cout << endl << "Current Score : " << getPointSum() << endl;
 }

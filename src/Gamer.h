@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <string>
 
 #include "Card.h"
@@ -17,6 +18,7 @@ class Gamer
 	list<Card> getCards();
 	void receiveCard(Card);
 	virtual void showCards() = 0;
+	void openCards();
 	int getPointSum();
 	int checkAceCount();
 };
@@ -41,6 +43,21 @@ void Gamer::setName(string name)
 void Gamer::receiveCard(Card card)
 {
 	cards.push_back(card);
+}
+
+void Gamer::openCards()
+{
+	list<Card>::iterator iter;
+	
+	cout << name << "\'s Cards : "; 
+	
+	for(iter = cards.begin(); iter != cards.end(); iter++)
+	{
+		iter->toString();
+		cout << " ";
+	}
+	
+	cout << "\nTotal Point : " << getPointSum() << endl;
 }
 
 int Gamer::getPointSum()

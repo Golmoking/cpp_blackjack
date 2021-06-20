@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <stdlib.h>
+#include <string>
 
 #include "CardDeck.h"
 #include "Player.h"
@@ -22,6 +23,7 @@ class Game
 	void SettingPhase();
 	void StartPhase();
 	void PlayingPhase();
+	void EndPhase();
 };
 
 void Game::Play()
@@ -88,6 +90,7 @@ void Game::StartPhase()
 	}
 	player.showCards();
 	dealer.showCards();
+	
 }
 
 void Game::PlayingPhase()
@@ -98,6 +101,7 @@ void Game::PlayingPhase()
 	
 	while(!isEndOfGame)
 	{
+		carddeck.printCards();
 		isVaildInput = false;
 		cout << endl << "===== Player's Turn =====" << endl;
 		player.showCards();
@@ -159,12 +163,38 @@ void Game::PlayingPhase()
 		
 		if(isPlayerStay && isDealerStay)
 		{
-			cout << "End Game" << endl;
-			cout << "Player's Total Point : " << player.getPointSum() << endl;
-			cout << "Dealer's Total Point : " << dealer.getPointSum() << endl;
-			
-			cout << rule.getWinner(player.getPointSum(), dealer.getPointSum()) << " is Winner" << endl;
-			
+			isEndOfGame = true;
+			EndPhase();
 		}
 	}
+}
+
+void Game::EndPhase()
+{
+	bool isPlayerBlackjack = rule.isBlackJack(player.getCards()), isDealerBlackjack = rule.isBlackJack(dealer.getCards());
+	string winner;
+	cout << "\n===== End Game =====" << endl;
+			
+	player.openCards();
+	cout << endl;
+	dealer.openCards();
+	
+	if (isPlayerBlackjack)
+	{
+		cout << "[♠♥♦♣]PLAYER'S BLACKJACK![♣♦♥♠]" << endl;
+		winner = player.getName();
+	}
+	
+	if (isDealerBlackjack)
+	{
+		cout << "[♠♥♦♣]DEALER'S BLACKJACK![♣♦♥♠]" << endl;
+		
+		winner = isPlayerBlackjack ? player.getName() : dealer.getName();
+	}
+	
+	if(!isPlayerBlackjack && !isDealerBlackjack)
+		winner = rule.getWinner(player.getPointSum(), dealer.getPointSum());
+	
+	cout << winner << "'s Victory!" << endl;
+	
 }

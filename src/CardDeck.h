@@ -123,20 +123,24 @@ Card CardDeck::drawCard()
 	uniform_int_distribution<int> rand(0, cards.size());
 	
 	list<Card>::iterator iter;
-	int i = 0, index;
+	int i, index;
 	Card selectedCard(" ", " ", 0);
 	
-	index = rand(gen); 
-	
-	for(iter = cards.begin(); iter != cards.end(); iter++)
+	while(!selectedCard.getPoint())
 	{
-		if(i == index)
+		index = rand(gen);
+		i = 0;
+		
+		for(iter = cards.begin(); iter != cards.end(); iter++)
 		{
-			selectedCard = *iter;
-			cards.erase(iter);
-			break;
+			if(i == index)
+			{
+				selectedCard = *iter;
+				cards.erase(iter);
+				break;
+			}
+			i++;
 		}
-		i++;
 	}
 	
 	return selectedCard;
