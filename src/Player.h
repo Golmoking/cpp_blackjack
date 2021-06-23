@@ -6,12 +6,20 @@ class Player : public Gamer
 	private:
 	public:
 	Player();
+	void receiveCard(Card);
 	void showCards() override;
 };
 
 Player::Player() : Gamer() 
 {
 	setName("Player");
+}
+
+void Player::receiveCard(Card card)
+{
+	Gamer::receiveCard(card);
+	cout << "You Get : ";
+	card.toString();
 }
 
 void Player::showCards()
