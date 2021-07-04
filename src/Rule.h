@@ -18,7 +18,7 @@ class Rule
 	Rule();
 	bool isBurst(int);
 	bool isBlackJack(list<Card>);
-	string getWinner(int, int);
+	string getWinner(Player, Dealer);
 };
 
 Rule::Rule() { }
@@ -44,12 +44,16 @@ bool Rule::isBlackJack(list<Card> cards)
 	return isAce && isTen;
 }
 
-string Rule::getWinner(int playerPoint, int dealerPoint)
+string Rule::getWinner(Player player, Dealer dealer)
 {
 	string o;
 	
-	if(playerPoint > dealerPoint)
+	if(player.getPointSum() > dealer.getPointSum())
 		o = "Player";
+	else if (player.getPointSum() == dealer.getPointSum())
+	{
+		o = player.getCards().size() > player.getCards().size() ? "Player" : "Dealer";
+	}
 	else
 		o = "Dealer";
 	

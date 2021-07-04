@@ -18,7 +18,6 @@ Player::Player() : Gamer()
 void Player::receiveCard(Card card)
 {
 	Gamer::receiveCard(card);
-	cout << "You Get : ";
 	card.toString();
 }
 

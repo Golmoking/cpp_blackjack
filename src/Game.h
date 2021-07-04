@@ -84,11 +84,15 @@ void Game::StartPhase()
 {
 	carddeck.initCards();
 	
+	
+	cout << "You Get : ";
+	
 	for(int i = 0; i < 2; i++)
 	{
 		player.receiveCard(carddeck.drawCard());
 		dealer.receiveCard(carddeck.drawCard());
 	}
+	cout << endl;
 	player.showCards();
 	dealer.showCards();
 	
@@ -119,7 +123,9 @@ void Game::PlayingPhase()
 				{
 				case 1:
 					cout << "Hit!" << endl;
+					cout << "You Get ";
 					player.receiveCard(carddeck.drawCard());
+					cout << endl;
 					isPlayerStay = false;
 					isVaildInput = true;
 					break;
@@ -206,7 +212,7 @@ void Game::EndPhase()
 	}
 	
 	if(!isPlayerBlackjack && !isDealerBlackjack)
-		winner = rule.getWinner(player.getPointSum(), dealer.getPointSum());
+		winner = rule.getWinner(player, dealer);
 	
 	cout << winner << "'s Victory!" << endl;
 	
@@ -234,6 +240,8 @@ void Game::EndMenuPhase()
 	{
 		case 1:
 			//system("cls");
+			player.resetData();
+			dealer.resetData();
 			StartPhase();
 			PlayingPhase();
 			break;

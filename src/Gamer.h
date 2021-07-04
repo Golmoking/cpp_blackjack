@@ -15,6 +15,7 @@ class Gamer
 	Gamer();
 	string getName();
 	void setName(string);
+	void resetData();
 	list<Card> getCards();
 	void receiveCard(Card);
 	virtual void showCards() = 0;
@@ -30,6 +31,7 @@ list<Card> Gamer::getCards()
 	return cards;
 }
 
+
 string Gamer::getName()
 {
 	return name;
@@ -38,6 +40,11 @@ string Gamer::getName()
 void Gamer::setName(string name)
 {
 	this->name = name;
+}
+
+void Gamer::resetData()
+{
+	cards.clear();
 }
 
 void Gamer::receiveCard(Card card)
